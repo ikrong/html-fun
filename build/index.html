@@ -1,13 +1,62 @@
-<html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0;"><title>首页</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sofish/Typo.css@2.1.2/typo.css"><script>window.dirs = "douyin-love,rain-window,time-compass"</script><style>body {
-            width: 500px;
-            margin: 50px auto;
+<html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0;"><title>首页</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sofish/Typo.css@2.1.2/typo.css"><script>window.dirs = JSON.parse(`[{"dir":"douyin-love","name":"抖音点赞","extras":{"date":"2020-04-15"}},{"dir":"rain-window","name":"小水珠","extras":{"date":"2020-04-14"}},{"dir":"time-compass","name":"时钟罗盘","extras":{"date":"2020-04-10"}}]`)</script><style>*,
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
             font-size: 20px;
-        }</style></head><body><script>!(() => {
-            window.dirs.split(',').map((dir, i) => {
-                let a = document.createElement('a')
-                a.href = `./${dir}/index.html`
-                a.innerHTML = `${i+1}. ${dir}`
-                a.target = "_blank"
-                document.body.append(a, document.createElement('br'))
+            height: 100%;
+        }
+
+        table {
+            width: 500px;
+            margin: 0 auto;
+        }
+
+        table a {
+            display: inline-block;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            max-width: 100%;
+        }
+
+        .text-r {
+            text-align: right;
+        }
+
+        tfoot td {
+            text-align: center;
+            padding: 5px 0;
+        }
+        tfoot td a {
+            text-decoration: none;
+            color: #a4b0be;
+            border-bottom: none !important;
+        }
+
+        @media screen and (max-width : 500px) {
+            table {
+                width: 300px;
+            }
+        }</style></head><body class="typo"><table class="textwrap-table typo-table"><thead><tr><th>名称</th><th>源代码</th><th class="text-r">预览</th></tr></thead><tbody></tbody><tfoot><tr><td colspan="3"><a href="https://ikrong.com" title="ikrong.com">@ikrong.com ✍</a></td></tr></tfoot></table><script>!(() => {
+            let body = document.querySelector('table tbody')
+            window.dirs.sort((a, b) => {
+                return +new Date(a.extras.date || 0) > +new Date(b.extras.date || 0) ? -1 : 1
+            }).map(({
+                dir,
+                name
+            }, i) => {
+                let preview = `https://ikrong.github.io/html-fun/${dir}/index.html`
+                let source = `https://github.com/ikrong/html-fun/tree/master/src/${dir}`
+                let tr = document.createElement('tr')
+                tr.innerHTML = `
+                <td>${name}</td>
+                <td><a href="${source}" target="_blank">${dir}</a></td>
+                <td class="text-r"><a href="${preview}" target="_blank">打开</a></td>
+                `
+                body.append(tr)
             })
         })()</script></body></html>

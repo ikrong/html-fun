@@ -4,10 +4,31 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineCSSAndJS = require('./inline')
+const { getFileExt, getFileName } = require('./utils')
 
 const projectsIndex = fs.readdirSync('./src').filter(dir => fs.existsSync(`./src/${dir}/index.js`))
 const projectsHTML = fs.readdirSync('./src').filter(dir => fs.existsSync(`./src/${dir}/index.html`))
 const projectsAssets = fs.readdirSync('./src').filter(dir => fs.existsSync(`./src/${dir}/assets/`))
+const projectsInfo = fs.readdirSync('./src')
+  .filter(dir => fs.existsSync(`./src/${dir}/index.html`))
+  .reduce((data, dir) => {
+    let file = fs.readdirSync(`./src/${dir}`).find(
+      name => getFileExt(name) == 'md'
+    )
+    let content = fs.readFileSync(`./src/${dir}/${file}`).toString()
+    let match = /^([a-z0-9]+): /
+    let extras = content.split(/[\r\n]/g).filter(a => a.match(match)).reduce((data, str) => {
+      let i = str.indexOf(':')
+      let [key, value] = [str.substr(0, i), str.substr(i + 1)]
+      data[key.trim()] = value.trim()
+      return data
+    }, {})
+    data.push({
+      dir, name: getFileName(file),
+      extras,
+    })
+    return data;
+  }, [])
 
 module.exports = {
   entry: function () {
@@ -42,7 +63,7 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: './index.html',
-      dirs: fs.readdirSync('./src'),
+      dirs: JSON.stringify(projectsInfo),
       chunks: [],
     }),
     ...process.env.NODE_ENV == 'production' ? [new InlineCSSAndJS()] : [],
