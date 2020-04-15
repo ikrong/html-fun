@@ -2,7 +2,7 @@
 
 已经实现的内容：
 
-[//]: 实现的内容表格
+[//]: # 实现的内容表格
 | 项目名 | 代码目录(src/) | 预览 |
 | --- | ---- | -- |
 | 抖音点赞 | [douyin-love](https://github.com/ikrong/html-fun/tree/master/src/douyin-love) | [https://ikrong.github.io/html-fun/douyin-love/index.html](https://ikrong.github.io/html-fun/douyin-love/index.html) |
