@@ -1,0 +1,13 @@
+<html lang="zh-cn"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0;"><title>首页</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/sofish/Typo.css@2.1.2/typo.css"><script>window.dirs = "douyin-love,rain-window,time-compass"</script><style>body {
+            width: 500px;
+            margin: 50px auto;
+            font-size: 20px;
+        }</style></head><body><script>!(() => {
+            window.dirs.split(',').map((dir, i) => {
+                let a = document.createElement('a')
+                a.href = `./${dir}/index.html`
+                a.innerHTML = `${i+1}. ${dir}`
+                a.target = "_blank"
+                document.body.append(a, document.createElement('br'))
+            })
+        })()</script></body></html>
