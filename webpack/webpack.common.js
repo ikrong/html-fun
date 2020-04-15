@@ -28,6 +28,9 @@ module.exports = {
         { from: Path.resolve(__dirname, `../src/${dir}/assets/`), to: `${dir}/assets` }
       ])
     }),
+    new CopyWebpackPlugin([
+      { from: Path.resolve(__dirname, `../README.md`), to: `./` }
+    ]),
     // 复制index.html
     ...projectsHTML.map(dir => {
       return new HtmlWebpackPlugin({

@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "html-tricks",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --config webpack/webpack.config.prod.js --colors",
-    "start": "webpack-dev-server --config webpack/webpack.config.dev.js"
+    "build": "gulp genmd && cross-env NODE_ENV=production webpack --config webpack/webpack.config.prod.js --colors",
+    "start": "webpack-dev-server --config webpack/webpack.config.dev.js",
+    "gh-pages": "npm run build && git subtree push --prefix build origin gh-pages"
+  },
+  "repository": {
+    "url": "https://github.com/ikrong/html-fun",
+    "type": "github"
   },
   "keywords": [
     "webpack",
