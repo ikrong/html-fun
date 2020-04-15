@@ -32,9 +32,9 @@ function genProjectMD() {
     let mdStr = table.map(row => `| ${row.join(' | ')} |`).join('\n');
 
     let readme = fs.readFileSync('./README.md').toString()
-    readme = readme.split(/[\r\n]\[\/\/\]: # \(实现的内容表格\)[\r\n]/)
+    readme = readme.split(/[\r\n]\[\/\/\]: # \(实现的内容表格\)[\r\n]{2}/)
     readme[1] = mdStr
-    readme = readme.join('\n\[\/\/\]: # \(实现的内容表格\)\n')
+    readme = readme.join('\n\[\/\/\]: # \(实现的内容表格\)\n\n')
 
     fs.writeFileSync('./README.md', readme)
 }
