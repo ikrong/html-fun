@@ -37,6 +37,11 @@ module.exports = {
         inlineSource: '.(js|css)$',
       })
     }),
+    new HtmlWebpackPlugin({
+      template: './index.html',
+      dirs: fs.readdirSync('./src'),
+      chunks: [],
+    }),
     ...process.env.NODE_ENV == 'production' ? [new InlineCSSAndJS()] : [],
   ],
   resolve: {

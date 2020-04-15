@@ -5,6 +5,7 @@ class InlineCSSAndJS {
     apply(compiler) {
         compiler.hooks.compilation.tap('InlineCSSAndJS', (compilation) => {
             HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('InlineCSSAndJS', async (data, cb) => {
+                if (data.outputName == 'index.html') return cb(null, data);
                 let warning = console.warn
                 console.warn = () => { }
                 data.html = await inlineSource(data.html, {
