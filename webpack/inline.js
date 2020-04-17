@@ -7,6 +7,13 @@ class InlineCSSAndJS {
             HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('InlineCSSAndJS', async (data, cb) => {
                 let warning = console.warn
                 console.warn = () => { }
+                let name = data.outputName.split('/')[0]
+                if (process.env.NODE_ENV == 'production') {
+                    data.html = data.html.replace(
+                        '</head>',
+                        `<base href="https://cdn.jsdelivr.net/gh/ikrong/html-fun/src/${name}" /></head>`
+                    )
+                }
                 data.html = await inlineSource(data.html, {
                     saveRemote: false,
                     attribute: false,
