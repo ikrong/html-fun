@@ -4,9 +4,11 @@ import { LoadProject } from './src/loadProject'
 
 let body = document.querySelector('.project-list')
 
-window.dirs = window.dirs.concat(window.dirs, Array(30).fill('').map(() => {
-    return window.dirs[Math.floor(Math.random() * window.dirs.length)]
-}))
+if (process.env.NODE_ENV != 'production') {
+    window.dirs = window.dirs.concat(window.dirs, Array(30).fill('').map(() => {
+        return window.dirs[Math.floor(Math.random() * window.dirs.length)]
+    }))
+}
 
 window.dirs.sort((a, b) => {
     return +new Date(a.extras.date || 0) > +new Date(b.extras.date || 0) ? -1 : 1
@@ -35,7 +37,8 @@ function checkScreenshot() {
         if (Utils.checkDomVisible(dom) && !dom.classList.contains('load-image')) {
             dom.classList.add('load-image')
             let dir = dom.getAttribute('data-project')
-            let img = process.env.NODE_ENV == 'production' ? `` : `./${dir}/assets/screenshot.png`
+            let img = (process.env.NODE_ENV == 'production' ? `https://cdn.jsdelivr.net/gh/ikrong/html-fun/src/` : "./") +
+                `${dir}/assets/screenshot.png`
             Utils.loadImage(img).then(() => {
                 Object.assign(dom.querySelector('.bg').style, {
                     backgroundImage: `url('${img}')`
