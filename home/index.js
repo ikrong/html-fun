@@ -38,7 +38,7 @@ if (window.innerWidth > 1000) {
 } else if (window.innerWidth > 700) {
     rowP = 3
 }
-if (window.dirs.length % rowP) {
+if (window.dirs.length % rowP && window.dirs.length > rowP) {
     let fixP = rowP - window.dirs.length % rowP
     Array(fixP).fill('').map(() => {
         let project = document.createElement('div')
