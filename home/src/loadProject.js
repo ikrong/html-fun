@@ -6,8 +6,7 @@ export class LoadProject {
     t
     interval
 
-    constructor(e) {
-        let proj = e.path.find(dom => dom.classList.contains('project'))
+    constructor(proj) {
         this.proj = proj
         this.init()
     }
@@ -78,14 +77,13 @@ export class LoadProject {
             } else {
                 throw new Error()
             }
-        }).then(data => {
+        }).then((data) => {
             clearInterval(this.interval)
             this.progress(1).then(() => {
                 console.log('进度条结束')
                 document.body.style.pointerEvents = 'auto'
                 this.cloneProj.remove()
-                document.write(data)
-                document.close()
+                // document.write(data)
                 location.href = href
             })
         }, () => {

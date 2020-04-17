@@ -32,8 +32,24 @@ window.dirs.sort((a, b) => {
     body.append(div)
 })
 
+let rowP = 2
+if (window.innerWidth > 1000) {
+    rowP = 5
+} else if (window.innerWidth > 700) {
+    rowP = 3
+}
+if (window.dirs.length % rowP) {
+    let fixP = rowP - window.dirs.length % rowP
+    Array(fixP).fill('').map(() => {
+        let project = document.createElement('div')
+        project.classList.add('project', 'fake')
+        body.append(project)
+    })
+    console.log({ fixP })
+}
+
 function checkScreenshot() {
-    Array.from(body.querySelectorAll('.project')).map(dom => {
+    Array.from(body.querySelectorAll('.project')).filter(dom => !dom.classList.contains('fake')).map(dom => {
         if (Utils.checkDomVisible(dom) && !dom.classList.contains('load-image')) {
             dom.classList.add('load-image')
             let dir = dom.getAttribute('data-project')
@@ -53,6 +69,19 @@ checkScreenshot()
 
 
 body.addEventListener('click', e => {
-    new LoadProject(e)
-    console.log(e)
+    let eles
+    if (document.elementsFromPoint) {
+        eles = Array.from(document.elementsFromPoint(e.clientX, e.clientY))
+    } else if (document.msElementsFromPoint) {
+        eles = Array.from(document.msElementsFromPoint(e.clientX, e.clientY))
+    }
+    let proj = eles.find(dom => dom.classList.contains('project') && !dom.classList.contains('fake'))
+    if (!proj) return
+    let dir = proj.getAttribute('data-project')
+    if (navigator.userAgent.match(/(iphone|mobile|ipad)/gi)) {
+        location.href = `./${dir}`
+    } else {
+        new LoadProject(proj)
+    }
+    // console.log(e)
 })

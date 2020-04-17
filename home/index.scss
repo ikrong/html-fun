@@ -5,7 +5,16 @@ body {
     box-sizing: border-box;
 }
 
-.proj-progress-svg{
+body {
+    border-top: 1px solid;
+    margin-top: -1px;
+}
+
+.ac {
+    text-align: center;
+}
+
+.proj-progress-svg {
     width: 0;
     height: 0;
     position: fixed;
@@ -43,6 +52,10 @@ body {
             position: relative;
             cursor: pointer;
             user-select: none;
+
+            &.fake {
+                pointer-events: none;
+            }
 
             .bg {
                 width: 100%;
@@ -90,7 +103,7 @@ body {
 
             &.clone {
                 position: fixed;
-                animation: move-proj .5s ease-out forwards;
+                animation: move-proj .5s ease-in-out forwards;
 
                 .bg {
                     filter: blur(10px) grayscale(1) brightness(.5);
@@ -112,4 +125,12 @@ body {
     }
 }
 
-@include flex-grid(300, 3, 10);
+@include flex-grid(300, 5, 10);
+
+@media screen and (max-width:1000px) {
+    @include flex-grid(280, 3, 10);
+}
+
+@media screen and (max-width:700px) {
+    @include flex-grid(150, 2, 20);
+}
