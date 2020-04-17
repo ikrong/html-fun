@@ -4,7 +4,7 @@
   "description": "html-tricks",
   "scripts": {
     "build": "gulp genmd && cross-env NODE_ENV=production webpack --config webpack/webpack.config.prod.js --colors",
-    "start": "webpack-dev-server --config webpack/webpack.config.dev.js",
+    "start": "webpack-dev-server --config webpack/webpack.config.dev.js --host 0.0.0.0",
     "gh-pages": "npm run build && git subtree push --prefix build origin gh-pages"
   },
   "repository": {

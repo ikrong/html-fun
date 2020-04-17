@@ -10,7 +10,7 @@ function genProjectMD() {
                 name => getFileExt(name) == 'md'
             )
             data.push({
-                dir, name: getFileName(file)
+                dir, name: file ? getFileName(file) : dir
             })
             return data;
         }, [])

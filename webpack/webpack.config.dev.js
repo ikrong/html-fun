@@ -10,7 +10,9 @@ module.exports = merge(common, {
   },
   devServer: {
     inline: true,
-    hot: true
+    hot: true,
+    useLocalIp:true,
+    watchContentBase: true,
   },
   plugins: [
     new Webpack.DefinePlugin({
@@ -21,7 +23,7 @@ module.exports = merge(common, {
     rules: [
       {
         test: /\.js$/,
-        include: Path.resolve(__dirname, '../src'),
+        exclude: /node_modules/,
         loader: 'babel-loader'
       },
       {

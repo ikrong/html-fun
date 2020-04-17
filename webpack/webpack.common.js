@@ -15,27 +15,37 @@ const projectsInfo = fs.readdirSync('./src')
     let file = fs.readdirSync(`./src/${dir}`).find(
       name => getFileExt(name) == 'md'
     )
-    let content = fs.readFileSync(`./src/${dir}/${file}`).toString()
-    let match = /^([a-z0-9]+): /
-    let extras = content.split(/[\r\n]/g).filter(a => a.match(match)).reduce((data, str) => {
-      let i = str.indexOf(':')
-      let [key, value] = [str.substr(0, i), str.substr(i + 1)]
-      data[key.trim()] = value.trim()
-      return data
-    }, {})
-    data.push({
-      dir, name: getFileName(file),
-      extras,
-    })
+    if (file) {
+      let content = fs.readFileSync(`./src/${dir}/${file}`).toString()
+      let match = /^([a-z0-9]+): /
+      let extras = content.split(/[\r\n]/g).filter(a => a.match(match)).reduce((data, str) => {
+        let i = str.indexOf(':')
+        let [key, value] = [str.substr(0, i), str.substr(i + 1)]
+        data[key.trim()] = value.trim()
+        return data
+      }, {})
+      data.push({
+        dir, name: getFileName(file),
+        extras,
+      })
+    } else {
+      data.push({
+        dir, name: dir,
+        extras: {}
+      })
+    }
     return data;
   }, [])
 
 module.exports = {
   entry: function () {
-    return projectsIndex.reduce((data, dir) => {
-      data[`${dir}/app`] = Path.resolve(__dirname, '../src', dir, 'index.js')
-      return data;
-    }, {})
+    return {
+      ...projectsIndex.reduce((data, dir) => {
+        data[`${dir}/app`] = Path.resolve(__dirname, '../src', dir, 'index.js')
+        return data;
+      }, {}),
+      'index': Path.resolve(__dirname, '../home', 'index.js')
+    }
   },
   output: {
     path: Path.join(__dirname, '../build'),
@@ -62,9 +72,9 @@ module.exports = {
       })
     }),
     new HtmlWebpackPlugin({
-      template: './index.html',
+      template: './home/index.html',
       dirs: JSON.stringify(projectsInfo),
-      chunks: [],
+      chunks: ['index'],
     }),
     ...process.env.NODE_ENV == 'production' ? [new InlineCSSAndJS()] : [],
   ],

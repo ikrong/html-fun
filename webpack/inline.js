@@ -5,17 +5,24 @@ class InlineCSSAndJS {
     apply(compiler) {
         compiler.hooks.compilation.tap('InlineCSSAndJS', (compilation) => {
             HtmlWebpackPlugin.getHooks(compilation).beforeEmit.tapAsync('InlineCSSAndJS', async (data, cb) => {
-                if (data.outputName == 'index.html') return cb(null, data);
                 let warning = console.warn
                 console.warn = () => { }
                 data.html = await inlineSource(data.html, {
+                    saveRemote: false,
                     attribute: false,
                     swallowErrors: true,
                     handlers: [(source) => {
+                        if (source.isRemote || !source.sourcepath) {
+                            source.fileContent = null
+                            source.content = null
+                            return Promise.resolve()
+                        }
                         let path = source.sourcepath.split('/')
                         path.shift()
                         path = path.join('/')
-                        source.fileContent = compilation.assets[path].source()
+                        let assetsSource = compilation.assets[path] || compilation.assets[source.sourcepath]
+                        if (!assetsSource) return Promise.resolve()
+                        source.fileContent = assetsSource.source()
                         source.content = source.fileContent
                         if (source.type == 'css') {
                             source.replace = `<style>${source.content}</style>`
