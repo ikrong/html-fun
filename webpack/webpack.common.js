@@ -102,6 +102,14 @@ module.exports = {
               path.shift()
               return path.join('/');
             },
+            publicPath: (url, resourcePath, context) => {
+              let relative = Path.relative(Path.resolve(context, 'src'), resourcePath)
+              let path = relative.split("\\")
+              if (process.env.NODE_ENV == 'production') {
+                path.unshift('https://cdn.jsdelivr.net/gh/ikrong/html-fun/src')
+              }
+              return path.join('/');
+            }
           },
         }
       },
