@@ -44,6 +44,7 @@ body {
         width: $width*$num + $gap*($num+1) + 0px;
         padding-top: $gap+0px;
         margin: 0 auto;
+        max-width: 100%;
 
         .project {
             width: $width+0px;
