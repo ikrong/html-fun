@@ -1,0 +1,314 @@
+*,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #dfe4ea;
+}
+
+@keyframes car-rotate {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes car-shadow {
+    0% {
+        box-shadow: 4px 0px 0 #000;
+    }
+
+    25% {
+        box-shadow: 4px -4px 0 #000;
+    }
+
+    50% {
+        box-shadow: -4px 0px 0 #000;
+    }
+
+    75% {
+        box-shadow: -4px 4px 0 #000;
+    }
+
+    100% {
+        box-shadow: 4px 0px 0 #000;
+    }
+}
+
+.tower-container {
+    width: 400px;
+    height: 600px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    zoom: .5;
+
+    .ground-edge {
+        &::before {
+            content: '';
+            width: 250px;
+            height: 40px;
+            top: 463px;
+            left: -50px;
+            position: absolute;
+            background-color: #bec3ca;
+            transform: skewY(35deg);
+        }
+
+        &::after {
+            content: '';
+            width: 250px;
+            height: 40px;
+            top: 463px;
+            left: 200px;
+            position: absolute;
+            background-color: #adb3bc;
+            transform: skewY(-35deg);
+        }
+    }
+
+    .ground {
+        width: 300px;
+        height: 300px;
+        transform: rotate(45deg) skew(-10deg, -10deg);
+        background-color: #d0d4da;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: -1;
+        top: 225px;
+        overflow: hidden;
+
+        .mark {
+            width: 260px;
+            height: 260px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            // background-color: #57606f;
+            border: 2px dashed #fff;
+            border-radius: 50%;
+        }
+
+        .road {
+            width: 280px;
+            height: 280px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            // background-color: #57606f;
+            border: 20px solid #57606f;
+            border-radius: 50%;
+        }
+
+        .car {
+            width: 240px;
+            height: 240px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            animation: car-rotate 10s ease-in-out infinite;
+
+            &::after {
+                content: '';
+                width: 40px;
+                height: 20px;
+                background-color: #1e90ff;
+                display: inline-block;
+                transform: rotate(-45deg);
+                left: 9px;
+                top: 18px;
+                position: absolute;
+                box-shadow: 0px -4px 0 #000;
+                animation: car-shadow 10s ease-in-out infinite;
+            }
+        }
+
+        .tower-shadow {
+            width: 200px;
+            height: 200px;
+            background-color: rgba(0, 0, 0, 0.1);
+            top: -18px;
+            position: absolute;
+            transform: skew(-5deg, -20deg) rotate(-50deg);
+            left: 120px;
+        }
+    }
+
+    .tower {
+        width: 500px;
+        height: 500px;
+        position: fixed;
+        top: 300px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        zoom: .5;
+
+        .top {
+            width: 20px;
+            height: 30px;
+            left: 0;
+            right: 0;
+            top: -20px;
+            margin: auto;
+            position: absolute;
+            z-index: 12;
+            background-color: #c4e538;
+
+            &::before {
+                border-radius: 50%;
+                content: '';
+                width: 24px;
+                height: 10px;
+                background-color: #b8d82b;
+                position: absolute;
+                left: -2px;
+                top: -2px;
+            }
+
+            &::after {
+                border-radius: 50%;
+                content: '';
+                width: 24px;
+                height: 5px;
+                background-color: #b8d82b;
+                position: absolute;
+                left: -2px;
+                top: 28px;
+            }
+        }
+
+        &::before {
+            z-index: 999;
+            // content: '';
+            width: 2px;
+            height: 100%;
+            position: absolute;
+            left: calc(50% - 1px);
+            background-color: rgba(0, 0, 0, .2);
+        }
+
+        @mixin roof($name, $color, $zIndex, $zoom, $top) {
+            .#{$name} {
+                position: absolute;
+                width: 0;
+                height: 0;
+                left: 0;
+                right: 0;
+                top: $top;
+                margin: auto;
+                zoom: $zoom;
+                z-index: $zIndex;
+
+                &::before {
+                    content: '';
+                    display: inline-block;
+                    position: absolute;
+                    border-width: 140px 100px 0 100px;
+                    border-style: solid;
+                    border-color: $color transparent transparent transparent;
+                    transform: rotate(90deg);
+                    transform-origin: top left;
+                }
+
+                &::after {
+                    content: '';
+                    display: inline-block;
+                    position: absolute;
+                    border-width: 0 100px 140px 100px;
+                    border-style: solid;
+                    border-color: transparent transparent darken($color: $color, $amount: 10%) transparent;
+                    transform: rotate(90deg);
+                    transform-origin: top left;
+                    left: 140px;
+                }
+            }
+        }
+
+        @include roof('roof4', #7bed9f, 10, 1, 0);
+        @include roof('floor4', #eccc68, 9, .9, 40);
+        @include roof('roof3', #71df94, 8, 1.1, 16);
+        @include roof('floor3', #eccc68, 7, 1.1, 50);
+        @include roof('roof2', #69d48b, 6, 1.3, 28);
+        @include roof('floor2', #eccc68, 5, 1.3, 64);
+        @include roof('roof1', #cad2db, 4, 1.6, 34);
+
+        .roof1-wall {
+            width: 0;
+            height: 0;
+            margin: auto;
+
+            &::before {
+                content: '';
+                display: inline-block;
+                background-color: #aeb6c0;
+                width: 225px;
+                height: 40px;
+                top: 292px;
+                left: 26px;
+                position: absolute;
+                transform: skewY(35deg);
+            }
+
+            &::after {
+                content: '';
+                display: inline-block;
+                background-color: #9da4ae;
+                width: 225px;
+                height: 40px;
+                top: 292px;
+                left: 250px;
+                position: absolute;
+                transform: skewY(-35deg);
+            }
+        }
+
+        .geteway {
+            width: 0;
+            height: 0;
+            margin: auto;
+
+            &::before,
+            &::after {
+                content: '';
+                display: inline-block;
+                background-color: #555a60;
+                width: 34px;
+                height: 35px;
+                top: 290px;
+                left: 112px;
+                position: absolute;
+                transform: skewY(35deg);
+                border-top-left-radius: 50%;
+                border-top-right-radius: 50%;
+            }
+
+            &::after {
+                top: 294px;
+                left: 350px;
+                transform: skewY(-35deg);
+            }
+        }
+    }
+}

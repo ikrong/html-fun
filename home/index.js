@@ -4,11 +4,11 @@ import { LoadProject } from './src/loadProject'
 
 let body = document.querySelector('.project-list')
 
-if (process.env.NODE_ENV != 'production') {
-    window.dirs = window.dirs.concat(window.dirs, Array(30).fill('').map(() => {
-        return window.dirs[Math.floor(Math.random() * window.dirs.length)]
-    }))
-}
+// if (process.env.NODE_ENV != 'production') {
+//     window.dirs = window.dirs.concat(window.dirs, Array(30).fill('').map(() => {
+//         return window.dirs[Math.floor(Math.random() * window.dirs.length)]
+//     }))
+// }
 
 window.dirs.sort((a, b) => {
     return +new Date(a.extras.date || 0) > +new Date(b.extras.date || 0) ? -1 : 1
