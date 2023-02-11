@@ -60,9 +60,9 @@ class MineMap {
   getNineGrid(x, y) {
     // prettier-ignore
     const nine = [
-        [x-1,y-1], [x,y-1], [x+1, y-1],
-        [x-1,y],   [x,y],   [x+1,y],
-        [x-1,y+1], [x,y+1], [x+1,y+1],
+      [x - 1, y - 1], [x, y - 1], [x + 1, y - 1],
+      [x - 1, y], [x, y], [x + 1, y],
+      [x - 1, y + 1], [x, y + 1], [x + 1, y + 1],
     ]
     return nine.map(([x, y]) => {
       return this.getCube(x, y);
@@ -110,6 +110,13 @@ class MineMap {
     ) {
       while (this.map[this.getId(x, y)].isBumb) {
         this.map.unshift(this.map.pop());
+        for (let h = 0; h < this.height; h++) {
+          for (let w = 0; w < this.width; w++) {
+            const cube = this.getCube(w, h)
+            cube.x = w
+            cube.y = h
+          }
+        }
         this.calcAround();
       }
       cube = this.map[this.getId(x, y)];
@@ -182,8 +189,7 @@ class MineGame {
     document.querySelector(".game").append(this.logEl);
 
     this.log(
-      `游戏地图:${width}*${height} 难度水平:${level} 砖块数量:${
-        width * height
+      `游戏地图:${width}*${height} 难度水平:${level} 砖块数量:${width * height
       } 炸弹数量:${this.map.map.filter((a) => a.isBumb).length}`
     );
 
