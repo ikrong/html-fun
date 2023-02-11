@@ -35,7 +35,7 @@ body {
 }
 
 @mixin flex-grid($width, $num, $gap:10) {
-    $height: $width*3/5;
+    $height: calc( $width*3/5 );
 
     .project-list {
         display: flex;
