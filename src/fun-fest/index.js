@@ -128,18 +128,18 @@ class FunFestGame extends FunFestEvent {
         if (!preCube) {
           cube.selected = true
           preCube = cube
-        } else if (preCube!=cube && (
-          (Math.abs(preCube.x-cube.x)===0&&Math.abs(preCube.y-cube.y)===1) ||
-          (Math.abs(preCube.x-cube.x)===1&&Math.abs(preCube.y-cube.y)===0)
+        } else if (preCube != cube && (
+          (Math.abs(preCube.x - cube.x) === 0 && Math.abs(preCube.y - cube.y) === 1) ||
+          (Math.abs(preCube.x - cube.x) === 1 && Math.abs(preCube.y - cube.y) === 0)
         )) {
-          if (this.checkErase(preCube.x,preCube.y,cube.x,cube.y)) {
+          if (this.checkErase(preCube.x, preCube.y, cube.x, cube.y)) {
             erase.push(cube, preCube)
-            preCube.selected=false
-            preCube=null
+            preCube.selected = false
+            preCube = null
           } else {
-            preCube.selected=false
-            preCube=cube
-            cube.selected=true
+            preCube.selected = false
+            preCube = cube
+            cube.selected = true
           }
         } else {
           preCube.selected = false
@@ -153,7 +153,7 @@ class FunFestGame extends FunFestEvent {
           for (let i = 0; i < erase.length; i++) {
             await this.erase(erase[i].x, erase[i].y);
           }
-          for (;;) {
+          for (; ;) {
             const cube = this.findErase();
             if (cube) {
               await this.erase(cube.x, cube.y);
@@ -234,7 +234,7 @@ class FunFestGame extends FunFestEvent {
 
   // 根据坐标获取紧邻的四周的方块
   getEdgeCube(x, y) {
-    return this.dEdge.map((dx, dy) => this.getCube(x + dx, y + dy));
+    return this.dEdge.map(({ dx, dy }) => this.getCube(x + dx, y + dy));
   }
 
   // 获取四周填充的图案
@@ -405,6 +405,30 @@ class FunFestGame extends FunFestEvent {
     this.render();
   }
 
+  async autoErase() {
+    for (let h = this.height-1; h >= 0; h--) {
+      for (let w = this.width-1; w >= 0; w--) {
+        const cube = this.getCube(w, h)
+        const cubes = this.getEdgeCube(w, h).filter(Boolean)
+        for (let i = 0; i < cubes.length; i++) {
+          if (this.checkErase(cubes[i].x, cubes[i].y, cube.x, cube.y)) {
+            await this.erase(cubes[i].x, cubes[i].y)
+            await this.erase(cube.x, cube.y)
+            for (; ;) {
+              const cube = this.findErase();
+              if (cube) {
+                await this.erase(cube.x, cube.y);
+              } else {
+                break;
+              }
+            }
+            return this.autoErase()
+          }
+        }
+      }
+    }
+  }
+
   // 渲染
   async render() {
     this.map = this.map.filter((cube) => !cube.destoryed);
@@ -435,3 +459,4 @@ game.on("end", () => {
   document.querySelector(".fun-fest-count .score-tip").textContent =
     "游戏结束,最终得分";
 });
+console.log(game)
