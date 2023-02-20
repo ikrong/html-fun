@@ -11,8 +11,8 @@ module.exports = merge(common, {
   devServer: {
     inline: true,
     hot: true,
-    useLocalIp:true,
     watchContentBase: true,
+    disableHostCheck: true,
   },
   plugins: [
     new Webpack.DefinePlugin({
