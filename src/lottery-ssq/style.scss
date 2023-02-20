@@ -3,4 +3,157 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: monospace;
+}
+
+.lottery-container {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    gap: 20px;
+    max-height: 100%;
+
+    .lottery-select {
+        .lottery-view {
+            .lottery-selectarea {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px 0;
+
+                .red-balls,
+                .blue-balls {
+                    display: flex;
+                    gap: 10px;
+                    flex-wrap: wrap;
+
+                    >div {
+                        width: 40px;
+                        height: 40px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 50%;
+                        color: #bababa;
+                        font-size: 20px;
+                        background-color: #ededed;
+                        user-select: none;
+                        box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+                        cursor: pointer;
+                    }
+                }
+
+                .red-balls>div {
+
+                    &:hover,
+                    &.active {
+                        color: #fff;
+                        background-color: #ff2d21;
+                    }
+
+
+                }
+
+                .blue-balls>div {
+
+                    &:hover,
+                    &.active {
+                        color: #fff;
+                        background-color: #8cb5ea;
+                    }
+                }
+            }
+
+            .lottery-btn {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+
+                .lottery-code {
+                    height: 30px;
+                    border: 1px solid #ff3424;
+                    border-radius: 5px;
+                    padding: 0 10px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+
+                button {
+                    padding: 6px 10px;
+                    background-color: #ff3424;
+                    border: none;
+                    color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+
+                    &:hover {
+                        background-color: #d51406;
+                    }
+
+                    &:active:hover {
+                        background-color: #c71e12;
+                    }
+                }
+            }
+        }
+
+        .lottery-list {}
+    }
+
+    .lottery-latest {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        user-select: none;
+        flex: auto;
+        overflow: auto;
+        justify-content: space-between;
+        display: none;
+    }
+}
+
+.lottery-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .lottery-code {
+        color: #808080;
+    }
+
+    .lottery-number {
+        display: flex;
+        gap: 10px;
+
+        .red-ball {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 20px;
+            user-select: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+            color: #fff;
+            background-color: #ff2d21;
+        }
+
+        .blue-ball {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 20px;
+            user-select: none;
+            box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+            color: #fff;
+            background-color: #8cb5ea;
+        }
+    }
 }
